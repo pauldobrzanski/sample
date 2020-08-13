@@ -1,0 +1,12 @@
+# Mac detritus
+.DS_Store
+
+# Terraform detritus
+.terraform/
+*.plan
+*.tfstate
+*.tfstate.backup
+
+# Ruby detritus
+.ruby-gemset
+.ruby-version
