@@ -45,6 +45,7 @@ jobs:
         displayName: "Prepare application"
         inputs:
           SonarCloud: "sonarcloud"
+          organization: "pauldobrzanski"
           scannerMode: "MSBuild"
           projectKey: "sample"
 
