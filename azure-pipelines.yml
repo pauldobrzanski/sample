@@ -15,13 +15,10 @@ pool:
   vmImage: 'ubuntu-latest'
 
 jobs:
-  - job: build_release
-    displayName: "Build Release"
+  - job: build_application
+    displayName: "Build Application"
     
     steps:
-      - script: echo Hello, world!
-        displayName: 'Run a one-line script'
-
       - script: dotnet publish "$(Build.SourcesDirectory)/src/Sample/Sample.csproj" --output "$(Build.SourcesDirectory)/src/Sample/dist" --configuration Release
         displayName: "Build release"
 
@@ -39,3 +36,28 @@ jobs:
         inputs:
           pathToPublish: "$(Build.ArtifactStagingDirectory)/sample-app.zip"
           artifactName: sample-app
+
+  - job: sonarcloud_analysis
+    displayName: "SonarCloud Analysis"
+
+    steps:
+      - task: SonarCloudPrepare@1
+        displayName: "Prepare application"
+        inputs:
+          SonarCloud: "sonarcloud"
+          scannerMode: "MSBuild"
+          projectKey: "sample"
+
+      - task: DotNetCoreCLI@2
+        displayName: "Build application"
+        inputs:
+          command: build
+          projects: "$(Build.SourcesDirectory)/src/Sample/Sample.csproj"
+
+      - task: SonarCloudAnalyze@1
+        displayName: "Analyze application"
+
+      - task: SonarCloudPublish@1
+        displayName: "Publish results"
+        inputs:
+          pollingTimeoutSec: "300"
