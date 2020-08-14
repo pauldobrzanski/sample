@@ -22,4 +22,14 @@ jobs:
       - script: echo Hello, world!
         displayName: 'Run a one-line script'
 
+      - script: dotnet publish "$(Build.SourcesDirectory)/src/Sample/Sample.csproj" --output "$(Build.SourcesDirectory)/src/Sample/dist" --configuration Release
+        displayName: "Publish release"
 
+      - task: ArchiveFiles@2
+        displayName: "Archive release"
+        inputs:
+          rootFolderOrFile: "$(Build.SourcesDirectory)/src/Sample/dist"
+          includeRootFolder: false
+          archiveType: "zip"
+          archiveFile: "$(Build.ArtifactStagingDirectory)/sample-app.zip"
+          replaceExistingArchive: true
