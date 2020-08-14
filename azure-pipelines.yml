@@ -47,7 +47,7 @@ jobs:
           SonarCloud: "sonarcloud"
           organization: "pauldobrzanski"
           scannerMode: "MSBuild"
-          projectKey: "sample"
+          projectKey: "pauldobrzanski-sample"
 
       - task: DotNetCoreCLI@2
         displayName: "Build application"
